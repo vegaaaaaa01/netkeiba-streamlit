@@ -7,8 +7,7 @@ st.set_page_config(page_title="netkeiba 出馬表生成", layout="wide")
 
 st.title("netkeiba 出馬表生成ツール")
 
-default_ymd = "20251124"
-ymd_input = st.text_input("取得日 (YYYYMMDD または YYMMDD)", value=default_ymd)
+ymd_input = st.text_input("取得日 (YYYYMMDD または YYMMDD)", value="0000000")
 
 if st.button("出馬表を取得してExcelを生成"):
     try:
@@ -22,7 +21,6 @@ if st.button("出馬表を取得してExcelを生成"):
             st.warning("対象日のレースが見つかりませんでした。開催日かどうか確認してください。")
         else:
             st.success(f"取得行数: {len(df)} 行")
-            st.dataframe(df.head(50))
             excel_bytes = export_one_book_all_venues_pretty_to_bytes(df)
             filename = f"出馬表_{ymd}.xlsx"
             st.download_button(
