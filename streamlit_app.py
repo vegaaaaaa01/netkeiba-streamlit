@@ -7,7 +7,7 @@ st.set_page_config(page_title="netkeiba 出馬表生成", layout="wide")
 
 st.title("netkeiba 出馬表生成ツール")
 
-ymd_input = st.text_input("取得日 (YYYYMMDD または YYMMDD)", value="0000000")
+ymd_input = st.text_input("取得日 (YYYYMMDD または YYMMDD)", value="")
 
 if st.button("出馬表を取得してExcelを生成"):
     try:
