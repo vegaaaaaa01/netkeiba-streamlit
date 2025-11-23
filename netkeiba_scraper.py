@@ -32,28 +32,35 @@ def normalize_ymd(ymd: str) -> str:
 
 
 def get_race_ids_requests(yyyymmdd: str, timeout: int = 15) -> list[str]:
-    url = f"{BASE}/top/race_list.html?kaisai_date={yyyymmdd}"
-    resp = requests.get(url, headers=HEADERS, timeout=timeout)
-    text = None
-    for enc in [resp.apparent_encoding, "utf-8", "euc_jp", "shift_jis", "cp932"]:
-        try:
-            resp.encoding = enc
-            t = resp.text
-            if "race_id=" in t:
-                text = t
-                break
-        except Exception:
-            pass
-    if text is None:
-        resp.encoding = resp.apparent_encoding or "utf-8"
-        text = resp.text
-    soup = BeautifulSoup(text, "lxml")
-    race_ids = set()
-    for a in soup.select(".RaceList_DataItem a[href*='race_id=']"):
-        href = a.get("href") or ""
-        m = re.search(r"race_id=(\d{12})", href)
-        if m:
-            race_ids.add(m.group(1))
+    ymd = yyyymmdd
+    race_ids: set[str] = set()
+
+    for place in range(1, 11):
+        url = f"{BASE}/top/race_list_sub.html?kaisai_date={ymd}&kaisai_place={place:02d}"
+        resp = requests.get(url, headers=HEADERS, timeout=timeout)
+
+        text = None
+        for enc in [resp.apparent_encoding, "utf-8", "euc_jp", "shift_jis", "cp932"]:
+            try:
+                resp.encoding = enc
+                t = resp.text
+                if "RaceList_DataItem" in t or "race_id=" in t:
+                    text = t
+                    break
+            except Exception:
+                pass
+        if text is None:
+            resp.encoding = resp.apparent_encoding or "utf-8"
+            text = resp.text
+
+        soup = BeautifulSoup(text, "lxml")
+
+        for a in soup.select(".RaceList_DataItem a[href*='race_id=']"):
+            href = a.get("href") or ""
+            m = re.search(r"race_id=(\d{12})", href)
+            if m:
+                race_ids.add(m.group(1))
+
     return sorted(race_ids)
 
 
