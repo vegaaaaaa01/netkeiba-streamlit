@@ -387,7 +387,7 @@ def export_one_book_all_venues_pretty_to_bytes(df: pd.DataFrame, zoom: int = 165
             # 馬名〜コメント列を横に結合して空欄に
             ws.merge_range(
                 free_row,
-                3,   # 馬名列
+                1,   # 馬名列
                 free_row,
                 5,   # コメント列まで結合
                 "",
