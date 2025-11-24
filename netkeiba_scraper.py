@@ -380,18 +380,18 @@ def export_one_book_all_venues_pretty_to_bytes(df: pd.DataFrame, zoom: int = 165
                 2,
                 {"validate": "list", "source": ["◎", "◯", "▲", "△"], "ignore_blank": True, "show_error": False},
             )
-            # --- 各レースの最後に「フリーコメント」欄を1行結合で追加 ---
-            free_row = bottom_row + 1  # 最後の馬のすぐ下
-            ws.set_row(free_row, 32)   # 少し高めにする
+            # --- フリーコメント（馬名〜コメント列を横に結合） ---
+            free_row = bottom_row + 1
+            ws.set_row(free_row, 32)  # 書き込みやすいように高さ少し上げる
 
-            # 「フリーコメント」タイトルをコメント列(5)の上部に書き、横方向に結合
+            # 馬名（col=3）〜コメント（col=5）を横に結合して「フリーコメント」欄を作成
             ws.merge_range(
                 free_row,
-                5,   # コメント列から
-                free_row,  # 同じ行で
-                5,   # 同じ列（結合する範囲を広げたければ右に増やせる）
-                "フリーコメント",
-                fmt("header", top=True, bottom=True, right=True),
+                3,   # 馬名列
+                free_row,
+                5,   # コメント列まで結合
+                "フリーコメント：",  # タイトル入り欄
+                fmt("wrap", top=True, bottom=True, right=True),
             )
     output.seek(0)
     return output.getvalue()
