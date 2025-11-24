@@ -297,7 +297,7 @@ def export_one_book_all_venues_pretty_to_bytes(df: pd.DataFrame, zoom: int = 165
             ws.set_row(0, 42)
             ws.set_column(0, 0, 4)
             ws.set_column(1, 1, 4)
-            ws.set_column(2, 2, 4)
+            ws.set_column(2, 2, 6)
             ws.set_column(3, 3, 28)
             ws.set_column(4, 4, 12)
             ws.set_column(5, 5, 42)
