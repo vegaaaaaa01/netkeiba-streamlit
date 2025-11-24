@@ -380,5 +380,28 @@ def export_one_book_all_venues_pretty_to_bytes(df: pd.DataFrame, zoom: int = 165
                 2,
                 {"validate": "list", "source": ["◎", "◯", "▲", "△"], "ignore_blank": True, "show_error": False},
             )
+                # --- 各レースの最後の馬の下にフリーコメント（タイトル＋1行）を追加 ---
+            free_title_row = bottom_row + 1   # タイトル行
+            free_comment_row = bottom_row + 2 # コメント入力行
+
+            # 行の高さはお好みで
+            ws.set_row(free_title_row, 22)
+            ws.set_row(free_comment_row, 32)
+
+            # タイトル「フリーコメント」
+            ws.write(
+                free_title_row,
+                5,  # コメント列
+                "フリーコメント",
+                fmt("header", left=False, right=True, top=True, bottom=False),
+            )
+
+            # 実際のコメント入力欄（1行）
+            ws.write(
+                free_comment_row,
+                5,
+                "",
+                fmt("wrap", left=False, right=True, top=False, bottom=True),
+            )
     output.seek(0)
     return output.getvalue()
