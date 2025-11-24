@@ -5,7 +5,7 @@ from netkeiba_scraper import get_shutuba_by_date, export_one_book_all_venues_pre
 
 st.set_page_config(page_title="netkeiba 出馬表生成", layout="wide")
 
-st.title("netkeiba 出馬表生成ツール")
+st.title("netkeiba 出馬表生成ツール (JRA)")
 
 ymd_input = st.text_input("取得日 (YYYYMMDD または YYMMDD)", value="")
 
